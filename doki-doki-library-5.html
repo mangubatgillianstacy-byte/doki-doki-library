@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doki Doki Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f7f1e6;
+  --parchment: #ede4d0;
+  --parchment-dark: #ddd0b8;
+  --gold: #c8a96e;
+  --gold-light: #e8d5a3;
+  --brown: #4a3728;
+  --brown-light: #6b5040;
+  --ink: #2d1f14;
+  --ink-soft: #5a3e30;
+
+  /* Member colors */
+  --zizi:   #7aa8cc; /* light blue */
+  --zizi-d: #3a6e99;
+  --gillie:   #1e3a6e; /* navy */
+  --gillie-d: #0f1f40;
+  --feebs:  #8b5caa; /* purple */
+  --feebs-d:#5e3080;
+  --safi:   #b84040; /* red */
+  --safi-d: #7a2020;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-weight: 300;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(200,169,110,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(139,92,170,0.07) 0%, transparent 60%),
+    repeating-linear-gradient(transparent,transparent 31px,rgba(139,100,70,0.06) 31px,rgba(139,100,70,0.06) 32px);
+}
+
+/* ── TOP STRIPE ── */
+.top-stripe {
+  height: 4px;
+  background: linear-gradient(90deg,
+    var(--zizi) 0%, var(--zizi) 25%,
+    var(--feebs) 25%, var(--feebs) 50%,
+    var(--safi) 50%, var(--safi) 75%,
+    var(--gillie) 75%, var(--gillie) 100%
+  );
+}
+
+/* ── HEADER ── */
+header {
+  text-align:center;
+  padding: 60px 20px 44px;
+  border-bottom: 1px solid var(--parchment-dark);
+}
+.site-eyebrow {
+  font-family:'Crimson Pro',serif;
+  font-size:0.7rem; letter-spacing:0.38em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:16px;
+  opacity:0; animation:fadeUp .8s ease forwards .1s;
+}
+h1.site-title {
+  font-family:'IM Fell English',serif;
+  font-size:clamp(2.2rem,6vw,4rem); font-weight:400;
+  color:var(--brown); letter-spacing:.02em; line-height:1.1;
+  margin-bottom:12px;
+  opacity:0; animation:fadeUp .9s ease forwards .25s;
+}
+.site-subtitle {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.1rem; color:var(--ink-soft); margin-bottom:24px;
+  opacity:0; animation:fadeUp .9s ease forwards .4s;
+}
+.header-ornament {
+  color:var(--gold); font-size:.95rem; letter-spacing:.55em;
+  opacity:0; animation:fadeUp .9s ease forwards .55s;
+}
+
+/* ── NAV ── */
+nav {
+  background:var(--parchment);
+  border-bottom:1px solid var(--parchment-dark);
+  position:sticky; top:0; z-index:100;
+}
+nav ul {
+  display:flex; justify-content:center; align-items:center;
+  list-style:none; max-width:960px; margin:0 auto; flex-wrap:wrap;
+}
+nav ul li a {
+  display:block; padding:14px 20px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:.78rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--brown-light); text-decoration:none;
+  border-right:1px solid var(--parchment-dark);
+  transition:color .2s, background .2s;
+}
+nav ul li:first-child a { border-left:1px solid var(--parchment-dark); }
+nav ul li a:hover, nav ul li a.active {
+  color:var(--brown); background:var(--cream);
+}
+nav ul li a.active { font-weight:600; }
+
+/* ── PAGES ── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ── MAIN WRAPPER ── */
+.main-wrap {
+  max-width:960px; margin:0 auto; padding:64px 28px;
+}
+
+/* ── SECTION LABELS ── */
+.section-label {
+  font-family:'Crimson Pro',serif;
+  font-size:.66rem; letter-spacing:.4em; text-transform:uppercase;
+  color:var(--gold); text-align:center; margin-bottom:8px;
+}
+.section-title {
+  font-family:'IM Fell English',serif;
+  font-size:1.85rem; font-weight:400;
+  color:var(--brown); text-align:center; margin-bottom:10px;
+}
+.section-rule {
+  display:flex; align-items:center; justify-content:center;
+  gap:14px; margin-bottom:46px;
+  color:var(--gold); font-size:.68rem; letter-spacing:.4em;
+}
+.section-rule::before, .section-rule::after {
+  content:''; width:80px; height:1px;
+}
+.section-rule::before { background:linear-gradient(90deg,transparent,var(--gold)); }
+.section-rule::after  { background:linear-gradient(90deg,var(--gold),transparent); }
+
+/* ── HOME PAGE ── */
+.welcome {
+  text-align:center; padding:48px 40px;
+  background:var(--parchment);
+  border:1px solid var(--parchment-dark); border-radius:2px;
+  margin-bottom:72px; position:relative; overflow:hidden;
+}
+.welcome::before { content:'❧'; position:absolute; top:14px; left:22px; font-size:1.3rem; color:var(--gold-light); }
+.welcome::after  { content:'❧'; position:absolute; bottom:14px; right:22px; font-size:1.3rem; color:var(--gold-light); transform:scaleX(-1); }
+.welcome p {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; line-height:2; color:var(--ink-soft);
+  max-width:620px; margin:0 auto;
+}
+
+/* Member cards grid */
+.members-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:26px; margin-bottom:80px;
+}
+.member-card {
+  background:#fdf8f0;
+  border:1px solid var(--parchment-dark); border-radius:2px;
+  padding:34px 30px; position:relative;
+  transition:transform .25s, box-shadow .25s; overflow:hidden;
+  cursor:pointer;
+}
+.member-card::before {
+  content:''; position:absolute; top:0; left:0;
+  width:3px; height:100%; transition:width .25s;
+}
+.member-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(74,55,40,.1); }
+.member-card:hover::before { width:5px; }
+
+.member-card.zizi::before   { background:var(--zizi); }
+.member-card.feebs::before  { background:var(--feebs); }
+.member-card.safi::before   { background:var(--safi); }
+.member-card.gillie::before { background:var(--gillie); }
+
+.card-ddlc {
+  font-family:'Crimson Pro',serif;
+  font-size:.63rem; letter-spacing:.3em; text-transform:uppercase; margin-bottom:6px;
+}
+.member-card.zizi   .card-ddlc { color:var(--zizi-d); }
+.member-card.feebs  .card-ddlc { color:var(--feebs-d); }
+.member-card.safi   .card-ddlc { color:var(--safi-d); }
+.member-card.gillie .card-ddlc { color:var(--gillie); }
+
+.card-name {
+  font-family:'IM Fell English',serif;
+  font-size:1.5rem; color:var(--brown); margin-bottom:4px;
+}
+.card-role {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:.88rem; color:var(--ink-soft); margin-bottom:16px;
+}
+.card-bio { font-size:.95rem; line-height:1.85; color:#5a4030; }
+.card-link {
+  display:inline-block; margin-top:18px;
+  font-family:'Crimson Pro',serif; font-size:.72rem;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--brown-light); text-decoration:none;
+  border-bottom:1px solid var(--parchment-dark); padding-bottom:2px;
+  transition:color .2s, border-color .2s;
+}
+.card-link:hover { color:var(--brown); border-color:var(--gold); }
+
+/* ── ARCHIVE PAGE ── */
+.shelf-group { margin-bottom:60px; }
+.shelf-group-title {
+  font-family:'IM Fell English',serif;
+  font-size:1.3rem; color:var(--brown);
+  border-bottom:1px solid var(--parchment-dark);
+  padding-bottom:10px; margin-bottom:20px;
+}
+.shelf-items { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.shelf-item {
+  background:var(--parchment); border:1px solid var(--parchment-dark);
+  border-radius:2px; padding:24px 26px;
+  text-decoration:none; color:inherit; display:block; position:relative;
+  transition:background .2s, transform .2s; cursor:pointer;
+  border-left:3px solid var(--parchment-dark);
+}
+.shelf-item:hover { background:#fdf8f0; transform:translateX(4px); }
+.shelf-item.zizi-color   { border-left-color:var(--zizi); }
+.shelf-item.feebs-color  { border-left-color:var(--feebs); }
+.shelf-item.safi-color   { border-left-color:var(--safi); }
+.shelf-item.gillie-color { border-left-color:var(--gillie); }
+.shelf-item.gold-color   { border-left-color:var(--gold); }
+
+.shelf-item-label {
+  font-family:'Crimson Pro',serif; font-size:.62rem;
+  letter-spacing:.32em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:5px;
+}
+.shelf-item-title {
+  font-family:'IM Fell English',serif; font-size:1.2rem; color:var(--brown); margin-bottom:4px;
+}
+.shelf-item-desc {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:.87rem; color:var(--ink-soft);
+}
+.shelf-arrow {
+  position:absolute; right:20px; top:50%; transform:translateY(-50%);
+  color:var(--parchment-dark); transition:color .2s, right .2s;
+}
+.shelf-item:hover .shelf-arrow { color:var(--gold); right:16px; }
+
+.shelf-items.full .shelf-item { grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; }
+
+/* ── MEMBER SOLO PAGE ── */
+.member-page-header {
+  display:flex; align-items:flex-end; gap:28px;
+  padding:36px 0 32px; border-bottom:1px solid var(--parchment-dark);
+  margin-bottom:48px;
+}
+.member-color-bar {
+  width:6px; height:80px; border-radius:3px; flex-shrink:0;
+}
+.member-page-ddlc {
+  font-family:'Crimson Pro',serif; font-size:.65rem;
+  letter-spacing:.35em; text-transform:uppercase; margin-bottom:6px;
+}
+.member-page-name {
+  font-family:'IM Fell English',serif; font-size:2.6rem; color:var(--brown);
+  line-height:1; margin-bottom:8px;
+}
+.member-page-role {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1rem; color:var(--ink-soft);
+}
+.member-page-bio {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.05rem; line-height:1.9; color:var(--ink-soft);
+  max-width:640px; padding:28px 34px;
+  background:var(--parchment); border:1px solid var(--parchment-dark);
+  border-radius:2px; margin-bottom:48px; position:relative;
+}
+.member-page-bio::before { content:'❧'; position:absolute; top:10px; left:14px; color:var(--gold-light); }
+
+.entries-grid { display:grid; gap:16px; }
+.entry-card {
+  background:#fdf8f0; border:1px solid var(--parchment-dark);
+  border-radius:2px; padding:28px 30px;
+}
+.entry-type {
+  font-family:'Crimson Pro',serif; font-size:.62rem;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:8px;
+}
+.entry-title {
+  font-family:'IM Fell English',serif; font-size:1.2rem;
+  color:var(--brown); margin-bottom:10px;
+}
+.entry-body {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1rem; line-height:1.9; color:var(--ink-soft);
+  white-space:pre-wrap;
+}
+.entry-empty {
+  text-align:center; padding:60px 20px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.05rem; color:var(--gold); border:1px dashed var(--parchment-dark);
+  border-radius:2px;
+}
+
+/* ── DUOS / TRIOS / QUADRO ── */
+.collab-intro {
+  text-align:center; font-family:'Cormorant Garamond',serif;
+  font-style:italic; font-size:1.05rem; color:var(--ink-soft);
+  margin-bottom:48px; line-height:1.9;
+}
+.collab-pairs { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:48px; }
+.collab-pair {
+  border:1px solid var(--parchment-dark); border-radius:2px;
+  padding:22px 24px; background:var(--parchment); text-align:center;
+  cursor:pointer; transition:background .2s, transform .2s;
+}
+.collab-pair:hover { background:#fdf8f0; transform:translateY(-2px); }
+.collab-pair-names {
+  font-family:'IM Fell English',serif; font-size:1.1rem;
+  color:var(--brown); margin-bottom:4px;
+}
+.collab-pair-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:.85rem; color:var(--ink-soft);
+}
+
+/* Quadro special */
+.quadro-banner {
+  text-align:center; padding:50px 40px;
+  background:linear-gradient(135deg,var(--parchment) 0%,#ede0c8 100%);
+  border:1px solid var(--gold-light); border-radius:2px;
+  margin-bottom:48px; position:relative; overflow:hidden;
+}
+.quadro-stripe {
+  height:3px; width:100%;
+  background:linear-gradient(90deg,var(--zizi),var(--feebs),var(--safi),var(--gillie));
+  margin-bottom:28px; border-radius:2px;
+}
+.quadro-title {
+  font-family:'IM Fell English',serif; font-size:2rem;
+  color:var(--brown); margin-bottom:10px;
+}
+.quadro-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1rem; color:var(--ink-soft);
+}
+
+/* ── MAILROOM ── */
+.mailboxes-row {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px;
+}
+.mailbox-slot {
+  border:1px solid var(--parchment-dark); border-radius:2px;
+  padding:22px 14px; text-align:center;
+  background:#fdf8f0; cursor:pointer;
+  transition:background .2s, transform .2s;
+  text-decoration:none; color:inherit; display:block;
+  border-top:3px solid var(--parchment-dark);
+}
+.mailbox-slot:hover { background:var(--cream); transform:translateY(-2px); }
+.mailbox-slot.zizi-slot   { border-top-color:var(--zizi); }
+.mailbox-slot.feebs-slot  { border-top-color:var(--feebs); }
+.mailbox-slot.safi-slot   { border-top-color:var(--safi); }
+.mailbox-slot.gillie-slot { border-top-color:var(--gillie); }
+
+.mailbox-icon  { font-size:1.3rem; margin-bottom:7px; display:block; }
+.mailbox-name  { font-family:'IM Fell English',serif; font-size:1rem; color:var(--brown); display:block; margin-bottom:3px; }
+.mailbox-count { font-family:'Crimson Pro',serif; font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
+
+.mailroom-group {
+  border:1px solid var(--gold-light); border-radius:2px;
+  padding:20px 24px; text-align:center;
+  background:linear-gradient(135deg,#fdf8f0,#ede0c8);
+  cursor:pointer; transition:opacity .2s;
+  text-decoration:none; color:inherit; display:block; margin-bottom:40px;
+}
+.mailroom-group:hover { opacity:.85; }
+.mailroom-group-title { font-family:'IM Fell English',serif; font-size:1.1rem; color:var(--brown); margin-bottom:4px; }
+.mailroom-group-sub   { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.88rem; color:var(--ink-soft); }
+
+/* Mailroom tabs */
+.mail-tabs {
+  display:flex; gap:10px; margin-bottom:28px; flex-wrap:wrap;
+}
+.mail-tab {
+  padding:8px 18px;
+  font-family:'Crimson Pro',serif; font-size:.7rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  background:var(--parchment); border:1px solid var(--parchment-dark);
+  border-radius:2px; cursor:pointer; color:var(--brown-light);
+  transition:background .2s, color .2s;
+}
+.mail-tab:hover, .mail-tab.active {
+  background:var(--brown); color:var(--gold-light); border-color:var(--brown);
+}
+
+/* Compose form */
+.compose-box {
+  background:var(--parchment); border:1px solid var(--parchment-dark);
+  border-radius:2px; padding:40px; margin-bottom:48px;
+}
+.compose-title {
+  font-family:'IM Fell English',serif; font-size:1.3rem;
+  color:var(--brown); margin-bottom:6px;
+}
+.compose-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:.9rem; color:var(--ink-soft); margin-bottom:28px;
+}
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.form-field { display:flex; flex-direction:column; gap:5px; }
+.form-field.full { grid-column:1/-1; }
+.form-field label {
+  font-family:'Crimson Pro',serif; font-size:.66rem;
+  letter-spacing:.25em; text-transform:uppercase; color:var(--brown-light);
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background:#fdf8f0; border:1px solid var(--parchment-dark);
+  border-radius:2px; padding:10px 13px;
+  font-family:'Crimson Pro',serif; font-size:1rem; color:var(--ink);
+  outline:none; transition:border-color .2s; -webkit-appearance:none;
+}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus { border-color:var(--gold); }
+.form-field textarea { min-height:130px; resize:vertical; line-height:1.7; }
+.form-submit {
+  display:block; width:100%; margin-top:18px; padding:14px;
+  background:var(--brown); color:var(--gold-light); border:none;
+  border-radius:2px; font-family:'Cormorant Garamond',serif;
+  font-size:.8rem; letter-spacing:.28em; text-transform:uppercase;
+  cursor:pointer; transition:background .2s;
+}
+.form-submit:hover { background:var(--brown-light); }
+
+/* Letters */
+.letters-container { display:grid; gap:14px; }
+.letter-card {
+  background:#fdf8f0; border:1px solid var(--parchment-dark);
+  border-radius:2px; padding:26px 30px;
+}
+.letter-meta {
+  display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;
+}
+.letter-from { font-family:'IM Fell English',serif; font-size:.95rem; color:var(--brown); }
+.letter-to   { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.82rem; color:var(--gold); }
+.letter-subject { font-family:'Cormorant Garamond',serif; font-size:.85rem; color:var(--ink-soft); margin-bottom:10px; font-style:italic; }
+.letter-body {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.03rem; line-height:1.9; color:var(--ink-soft); white-space:pre-wrap;
+}
+.no-letters {
+  text-align:center; padding:50px 20px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1rem; color:var(--gold);
+  border:1px dashed var(--parchment-dark); border-radius:2px;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align:center; padding:38px 20px;
+  border-top:1px solid var(--parchment-dark);
+}
+footer p {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:.87rem; color:var(--ink-soft); margin-bottom:6px;
+}
+.footer-ornament { color:var(--gold); font-size:.78rem; letter-spacing:.45em; }
+.bottom-stripe {
+  height:4px;
+  background:linear-gradient(90deg,
+    var(--zizi) 0%,var(--zizi) 25%,
+    var(--feebs) 25%,var(--feebs) 50%,
+    var(--safi) 50%,var(--safi) 75%,
+    var(--gillie) 75%,var(--gillie) 100%
+  );
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .members-grid, .shelf-items, .collab-pairs, .form-row { grid-template-columns:1fr; }
+  .mailboxes-row { grid-template-columns:1fr 1fr; }
+  nav ul li a { padding:11px 12px; font-size:.7rem; }
+  .member-page-header { flex-direction:column; align-items:flex-start; gap:12px; }
+}
+
+
+/* ── ADD ENTRY ── */
+.add-entry-box {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--parchment-dark);
+}
+.entry-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+.entry-delete {
+  background: none;
+  border: none;
+  color: var(--parchment-dark);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0 0 0 8px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.entry-delete:hover { color: var(--safi); }
+
+
+/* ── MUSIC ROOM ── */
+.music-member-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 60px;
+}
+.music-card {
+  background: #fdf8f0;
+  border: 1px solid var(--parchment-dark);
+  border-radius: 2px;
+  padding: 28px 28px 24px;
+  position: relative;
+  border-top: 3px solid var(--parchment-dark);
+}
+.music-card.zizi-music   { border-top-color: var(--zizi); }
+.music-card.feebs-music  { border-top-color: var(--feebs); }
+.music-card.safi-music   { border-top-color: var(--safi); }
+.music-card.gillie-music { border-top-color: var(--gillie); }
+
+.music-card-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.3rem;
+  color: var(--brown);
+  margin-bottom: 4px;
+}
+.music-card-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+}
+.spotify-embed {
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 14px;
+  display: block;
+}
+.playlist-url-input {
+  width: 100%;
+  background: var(--parchment);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 2px;
+  padding: 8px 12px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.playlist-url-input:focus { border-color: var(--gold); }
+.playlist-save-btn {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  background: var(--brown);
+  color: var(--gold-light);
+  border: none;
+  border-radius: 2px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.playlist-save-btn:hover { background: var(--brown-light); }
+.playlist-empty {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--gold);
+  text-align: center;
+  padding: 20px 0 10px;
+}
+.song-list { list-style: none; margin-bottom: 14px; }
+.song-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--parchment-dark);
+  gap: 10px;
+}
+.song-item:last-child { border-bottom: none; }
+.song-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.song-artist {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.song-delete {
+  background: none; border: none;
+  color: var(--parchment-dark);
+  cursor: pointer; font-size: 0.7rem;
+  padding: 0; transition: color 0.2s;
+  flex-shrink: 0;
+}
+.song-delete:hover { color: var(--safi); }
+.add-song-row {
+  display: flex; gap: 8px; margin-top: 12px;
+}
+.add-song-row input {
+  flex: 1;
+  background: var(--parchment);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 2px;
+  padding: 7px 10px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.9rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  min-width: 0;
+}
+.add-song-row input:focus { border-color: var(--gold); }
+.add-song-row button {
+  background: var(--brown);
+  color: var(--gold-light);
+  border: none; border-radius: 2px;
+  padding: 7px 12px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.add-song-row button:hover { background: var(--brown-light); }
+.group-playlist-section {
+  background: var(--parchment);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 2px;
+  padding: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.group-playlist-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.4rem;
+  color: var(--brown);
+  margin-bottom: 6px;
+}
+.group-playlist-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+@media(max-width:600px){ .music-member-grid { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+
+<div class="top-stripe"></div>
+
+<!-- HEADER -->
+<header>
+  <p class="site-eyebrow">est. 2025 &nbsp;·&nbsp; a private archive</p>
+  <h1 class="site-title">Doki Doki Library</h1>
+  <p class="site-subtitle">where four friends keep the things worth keeping</p>
+  <div class="header-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <ul>
+    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+    <li><a href="#" class="nav-link" data-page="archive">Archive</a></li>
+    <li><a href="#" class="nav-link" data-page="mailroom">Mailroom</a></li>
+    <li><a href="#" class="nav-link" data-page="music">Music Room</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: HOME -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+<div class="main-wrap">
+
+  <div class="welcome reveal">
+    <p>This is our little library — a place to keep the poems we wrote at 2am,
+the drawings that didn't need an audience, the journal entries that felt
+too good to lose, and the letters we meant to say out loud.
+Come in. Stay as long as you like.</p>
+  </div>
+
+  <p class="section-label reveal">the club</p>
+  <h2 class="section-title reveal">Our Members</h2>
+  <div class="section-rule reveal">✦</div>
+
+  <div class="members-grid">
+    <div class="member-card zizi reveal" onclick="goToMember('zizi')">
+      <p class="card-ddlc">Sayori</p>
+      <h3 class="card-name">Zizi</h3>
+      <p class="card-role">the chronically online introvert with a warm heart</p>
+      <p class="card-bio">Shy in person, surprisingly funny once you know him. Chronically online. Wants to get along with everyone and mostly succeeds. Makes any room warmer just by being in it, even when he doesn't notice.</p>
+      <span class="card-link">Browse Zizi's shelf →</span>
+    </div>
+
+    <div class="member-card feebs reveal" onclick="goToMember('feebs')">
+      <p class="card-ddlc">Natsuki</p>
+      <h3 class="card-name">Feebs</h3>
+      <p class="card-role">baker of things, giver of chaos, lover of everyone</p>
+      <p class="card-bio">Perpetually acting like she's had one too many. Bakes for the group constantly. Clingy in the best way. Sweet and funny and occasionally a little mean, but always, always cares.</p>
+      <span class="card-link">Browse Feebs' shelf →</span>
+    </div>
+
+    <div class="member-card safi reveal" onclick="goToMember('safi')">
+      <p class="card-ddlc">Yuri</p>
+      <h3 class="card-name">Safi</h3>
+      <p class="card-role">quiet in real life, unhinged in the groupchat</p>
+      <p class="card-bio">The calmest one in the room and the most energetic one in the chat — both completely genuine. Funny, caring, and the kind of person whose presence makes everything feel steadier.</p>
+      <span class="card-link">Browse Safi's shelf →</span>
+    </div>
+
+    <div class="member-card gillie reveal" onclick="goToMember('gillie')">
+      <p class="card-ddlc">Monika</p>
+      <h3 class="card-name">Gillie</h3>
+      <p class="card-role">mama, architect of this whole thing</p>
+      <p class="card-bio">The one who built this library. Less chaotic than Feebs — except when she isn't. Holds everyone together while also being held. They call her mama. She pretends to mind.</p>
+      <span class="card-link">Browse Gillie's shelf →</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: ARCHIVE -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-archive" class="page">
+<div class="main-wrap">
+
+  <!-- Archive Index (default) -->
+  <div id="archive-index">
+    <p class="section-label reveal">the stacks</p>
+    <h2 class="section-title reveal">The Archive</h2>
+    <div class="section-rule reveal">✦</div>
+
+    <div class="shelf-group reveal">
+      <h3 class="shelf-group-title">Solo shelves</h3>
+      <div class="shelf-items">
+        <div class="shelf-item zizi-color" onclick="goToMember('zizi')">
+          <p class="shelf-item-label">Sayori · light blue</p>
+          <p class="shelf-item-title">Zizi's Shelf</p>
+          <p class="shelf-item-desc">his poems, thoughts & creations</p>
+          <span class="shelf-arrow">→</span>
+        </div>
+        <div class="shelf-item feebs-color" onclick="goToMember('feebs')">
+          <p class="shelf-item-label">Natsuki · purple</p>
+          <p class="shelf-item-title">Feebs' Shelf</p>
+          <p class="shelf-item-desc">her art, words & everything in between</p>
+          <span class="shelf-arrow">→</span>
+        </div>
+        <div class="shelf-item safi-color" onclick="goToMember('safi')">
+          <p class="shelf-item-label">Yuri · red</p>
+          <p class="shelf-item-title">Safi's Shelf</p>
+          <p class="shelf-item-desc">her writing, art & journal entries</p>
+          <span class="shelf-arrow">→</span>
+        </div>
+        <div class="shelf-item gillie-color" onclick="goToMember('gillie')">
+          <p class="shelf-item-label">Monika · navy</p>
+          <p class="shelf-item-title">Gillie's Shelf</p>
+          <p class="shelf-item-desc">her words, ideas & the things she kept</p>
+          <span class="shelf-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shelf-group reveal">
+      <h3 class="shelf-group-title">Collaborations</h3>
+      <div class="shelf-items">
+        <div class="shelf-item gold-color" onclick="showSubpage('duos')">
+          <p class="shelf-item-label">Two voices</p>
+          <p class="shelf-item-title">Duos</p>
+          <p class="shelf-item-desc">things made together, two at a time</p>
+          <span class="shelf-arrow">→</span>
+        </div>
+        <div class="shelf-item gold-color" onclick="showSubpage('trios')">
+          <p class="shelf-item-label">Three voices</p>
+          <p class="shelf-item-title">Trios</p>
+          <p class="shelf-item-desc">when three of us make something together</p>
+          <span class="shelf-arrow">→</span>
+        </div>
+      </div>
+      <div class="shelf-items full" style="margin-top:16px">
+        <div class="shelf-item gold-color" onclick="showSubpage('quadro')" style="border-left-color:var(--gold)">
+          <div>
+            <p class="shelf-item-label">All four of us</p>
+            <p class="shelf-item-title">The Quadro Collection</p>
+            <p class="shelf-item-desc">things we made and felt and kept, together</p>
+          </div>
+          <span class="shelf-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member Solo Pages -->
+  <div id="member-page" style="display:none">
+    <button onclick="backToArchive()" style="background:none;border:none;font-family:'Crimson Pro',serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brown-light);cursor:pointer;margin-bottom:28px;padding:0;">← back to archive</button>
+    <div id="member-page-content"></div>
+  </div>
+
+  <!-- Duos -->
+  <div id="subpage-duos" style="display:none">
+    <button onclick="backToArchive()" style="background:none;border:none;font-family:'Crimson Pro',serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brown-light);cursor:pointer;margin-bottom:28px;padding:0;">← back to archive</button>
+    <p class="section-label">collaborations</p>
+    <h2 class="section-title">Duos</h2>
+    <div class="section-rule">✦</div>
+    <p class="collab-intro">things made by two of us — a conversation in poems,<br>a drawing that needed two sets of hands.</p>
+    <div class="collab-pairs">
+      <div class="collab-pair"><p class="collab-pair-names">Zizi & Feebs</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Zizi & Safi</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Zizi & Gillie</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Feebs & Safi</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Feebs & Gillie</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Safi & Gillie</p><p class="collab-pair-sub">coming soon</p></div>
+    </div>
+    <div class="entry-empty">the first duo piece is still being written ✦</div>
+  </div>
+
+  <!-- Trios -->
+  <div id="subpage-trios" style="display:none">
+    <button onclick="backToArchive()" style="background:none;border:none;font-family:'Crimson Pro',serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brown-light);cursor:pointer;margin-bottom:28px;padding:0;">← back to archive</button>
+    <p class="section-label">collaborations</p>
+    <h2 class="section-title">Trios</h2>
+    <div class="section-rule">✦</div>
+    <p class="collab-intro">three voices, one thing.</p>
+    <div class="collab-pairs">
+      <div class="collab-pair"><p class="collab-pair-names">Zizi, Feebs & Safi</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Zizi, Feebs & Gillie</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Zizi, Safi & Gillie</p><p class="collab-pair-sub">coming soon</p></div>
+      <div class="collab-pair"><p class="collab-pair-names">Feebs, Safi & Gillie</p><p class="collab-pair-sub">coming soon</p></div>
+    </div>
+    <div class="entry-empty">the first trio piece is still being written ✦</div>
+  </div>
+
+  <!-- Quadro -->
+  <div id="subpage-quadro" style="display:none">
+    <button onclick="backToArchive()" style="background:none;border:none;font-family:'Crimson Pro',serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brown-light);cursor:pointer;margin-bottom:28px;padding:0;">← back to archive</button>
+    <p class="section-label">all four of us</p>
+    <h2 class="section-title">The Quadro Collection</h2>
+    <div class="section-rule">✦</div>
+    <div class="quadro-banner">
+      <div class="quadro-stripe"></div>
+      <p class="quadro-title">Zizi · Feebs · Safi · Gillie</p>
+      <p class="quadro-sub">everything we made and felt as four</p>
+    </div>
+    <div class="entry-empty">the quadro collection is still being filled ✦</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: MAILROOM -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-mailroom" class="page">
+<div class="main-wrap">
+
+  <p class="section-label reveal">letters & notes</p>
+  <h2 class="section-title reveal">The Mailroom</h2>
+  <div class="section-rule reveal">✦</div>
+
+  <!-- Mailboxes -->
+  <div class="mailboxes-row reveal">
+    <a href="#" class="mailbox-slot zizi-slot" onclick="filterLetters('Zizi');return false;">
+      <span class="mailbox-icon">📬</span>
+      <span class="mailbox-name">Zizi</span>
+      <span class="mailbox-count" id="count-zizi">inbox</span>
+    </a>
+    <a href="#" class="mailbox-slot feebs-slot" onclick="filterLetters('Feebs');return false;">
+      <span class="mailbox-icon">📬</span>
+      <span class="mailbox-name">Feebs</span>
+      <span class="mailbox-count" id="count-feebs">inbox</span>
+    </a>
+    <a href="#" class="mailbox-slot safi-slot" onclick="filterLetters('Safi');return false;">
+      <span class="mailbox-icon">📬</span>
+      <span class="mailbox-name">Safi</span>
+      <span class="mailbox-count" id="count-safi">inbox</span>
+    </a>
+    <a href="#" class="mailbox-slot gillie-slot" onclick="filterLetters('Gillie');return false;">
+      <span class="mailbox-icon">📬</span>
+      <span class="mailbox-name">Gillie</span>
+      <span class="mailbox-count" id="count-gillie">inbox</span>
+    </a>
+  </div>
+  <a href="#" class="mailroom-group reveal" onclick="filterLetters('Everyone ✦');return false;">
+    <p class="mailroom-group-title">The Group Mailbox</p>
+    <p class="mailroom-group-sub">notes and letters to all four of us</p>
+  </a>
+
+  <!-- Compose -->
+  <div class="compose-box reveal">
+    <h3 class="compose-title">Leave a Letter</h3>
+    <p class="compose-sub">a poem, a note, a thought you meant to say out loud</p>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="mail-from">From</label>
+        <select id="mail-from">
+          <option value="">— who are you? —</option>
+          <option>Zizi</option><option>Feebs</option>
+          <option>Safi</option><option>Gillie</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="mail-to">To</label>
+        <select id="mail-to">
+          <option value="">— who is this for? —</option>
+          <option>Zizi</option><option>Feebs</option>
+          <option>Safi</option><option>Gillie</option>
+          <option>Everyone ✦</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field full">
+        <label for="mail-subject">Subject (optional)</label>
+        <input type="text" id="mail-subject" placeholder="a title, if you want one">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field full">
+        <label for="mail-body">Your letter</label>
+        <textarea id="mail-body" placeholder="write here..."></textarea>
+      </div>
+    </div>
+    <button class="form-submit" onclick="submitLetter()">Seal & Send ✦</button>
+  </div>
+
+  <!-- Letters display -->
+  <div class="reveal">
+    <div class="mail-tabs" id="mail-tabs">
+      <div class="mail-tab active" onclick="filterLetters('all')">All letters</div>
+      <div class="mail-tab" onclick="filterLetters('Zizi')">Zizi</div>
+      <div class="mail-tab" onclick="filterLetters('Feebs')">Feebs</div>
+      <div class="mail-tab" onclick="filterLetters('Safi')">Safi</div>
+      <div class="mail-tab" onclick="filterLetters('Gillie')">Gillie</div>
+      <div class="mail-tab" onclick="filterLetters('Everyone ✦')">Everyone</div>
+    </div>
+    <div class="letters-container" id="letters-container"></div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: MUSIC ROOM -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-music" class="page">
+<div class="main-wrap">
+
+  <p class="section-label reveal">the listening room</p>
+  <h2 class="section-title reveal">Music Room</h2>
+  <div class="section-rule reveal">✦</div>
+
+  <!-- Group playlist -->
+  <div class="group-playlist-section reveal">
+    <p class="group-playlist-title">The Group Playlist</p>
+    <p class="group-playlist-sub">paste a shared Spotify playlist link below</p>
+    <div id="group-spotify-embed"></div>
+    <input class="playlist-url-input" id="group-playlist-input" placeholder="https://open.spotify.com/playlist/...">
+    <br>
+    <button class="playlist-save-btn" onclick="savePlaylist('group')">Save playlist ✦</button>
+  </div>
+
+  <!-- Member music cards -->
+  <p class="section-label reveal" style="margin-top:48px">member playlists</p>
+  <h3 class="section-title reveal" style="font-size:1.5rem">Everyone's Picks</h3>
+  <div class="section-rule reveal">✦</div>
+
+  <div class="music-member-grid">
+
+    <div class="music-card zizi-music reveal">
+      <p class="music-card-name">Zizi</p>
+      <p class="music-card-sub">his playlist</p>
+      <div id="zizi-spotify-embed"></div>
+      <input class="playlist-url-input" id="zizi-playlist-input" placeholder="https://open.spotify.com/playlist/...">
+      <button class="playlist-save-btn" onclick="savePlaylist('zizi')">Save ✦</button>
+      <div style="margin-top:20px;border-top:1px solid var(--parchment-dark);padding-top:16px">
+        <p class="section-label" style="text-align:left;margin-bottom:10px">song list</p>
+        <ul class="song-list" id="zizi-songs"></ul>
+        <div class="add-song-row">
+          <input id="zizi-song-title" placeholder="song title">
+          <input id="zizi-song-artist" placeholder="artist">
+          <button onclick="addSong('zizi')">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="music-card feebs-music reveal">
+      <p class="music-card-name">Feebs</p>
+      <p class="music-card-sub">her playlist</p>
+      <div id="feebs-spotify-embed"></div>
+      <input class="playlist-url-input" id="feebs-playlist-input" placeholder="https://open.spotify.com/playlist/...">
+      <button class="playlist-save-btn" onclick="savePlaylist('feebs')">Save ✦</button>
+      <div style="margin-top:20px;border-top:1px solid var(--parchment-dark);padding-top:16px">
+        <p class="section-label" style="text-align:left;margin-bottom:10px">song list</p>
+        <ul class="song-list" id="feebs-songs"></ul>
+        <div class="add-song-row">
+          <input id="feebs-song-title" placeholder="song title">
+          <input id="feebs-song-artist" placeholder="artist">
+          <button onclick="addSong('feebs')">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="music-card safi-music reveal">
+      <p class="music-card-name">Safi</p>
+      <p class="music-card-sub">her playlist</p>
+      <div id="safi-spotify-embed"></div>
+      <input class="playlist-url-input" id="safi-playlist-input" placeholder="https://open.spotify.com/playlist/...">
+      <button class="playlist-save-btn" onclick="savePlaylist('safi')">Save ✦</button>
+      <div style="margin-top:20px;border-top:1px solid var(--parchment-dark);padding-top:16px">
+        <p class="section-label" style="text-align:left;margin-bottom:10px">song list</p>
+        <ul class="song-list" id="safi-songs"></ul>
+        <div class="add-song-row">
+          <input id="safi-song-title" placeholder="song title">
+          <input id="safi-song-artist" placeholder="artist">
+          <button onclick="addSong('safi')">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="music-card gillie-music reveal">
+      <p class="music-card-name">Gillie</p>
+      <p class="music-card-sub">her playlist</p>
+      <div id="gillie-spotify-embed"></div>
+      <input class="playlist-url-input" id="gillie-playlist-input" placeholder="https://open.spotify.com/playlist/...">
+      <button class="playlist-save-btn" onclick="savePlaylist('gillie')">Save ✦</button>
+      <div style="margin-top:20px;border-top:1px solid var(--parchment-dark);padding-top:16px">
+        <p class="section-label" style="text-align:left;margin-bottom:10px">song list</p>
+        <ul class="song-list" id="gillie-songs"></ul>
+        <div class="add-song-row">
+          <input id="gillie-song-title" placeholder="song title">
+          <input id="gillie-song-artist" placeholder="artist">
+          <button onclick="addSong('gillie')">Add</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Doki Doki Library &nbsp;·&nbsp; a small private archive for four friends</p>
+  <p class="footer-ornament">✦ &nbsp; ✦ &nbsp; ✦</p>
+</footer>
+<div class="bottom-stripe"></div>
+
+<script>
+const SURL = 'https://gjzefdiyfjmlvnlnpwcq.supabase.co';
+const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqemVmZGl5ZmptbHZubG5wd2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNDQ0MDcsImV4cCI6MjA4OTgyMDQwN30.yJZOo0WUh4gMMaNBfQwIB46Mde57Nlmrk6w9O3bx7nY';
+
+// ── SUPABASE ──────────────────────────────────────────────
+async function sbGet(table, filter='') {
+  try {
+    const r = await fetch(`${SURL}/rest/v1/${table}?${filter}&order=created_at.desc`, {
+      headers: { apikey: SKEY, Authorization: 'Bearer ' + SKEY }
+    });
+    return r.ok ? await r.json() : [];
+  } catch(e) { return []; }
+}
+
+async function sbPost(table, data) {
+  try {
+    await fetch(`${SURL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: { apikey: SKEY, Authorization: 'Bearer ' + SKEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify(data)
+    });
+  } catch(e) {}
+}
+
+async function sbDelete(table, id) {
+  try {
+    await fetch(`${SURL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: { apikey: SKEY, Authorization: 'Bearer ' + SKEY }
+    });
+  } catch(e) {}
+}
+
+// ── DATA ──────────────────────────────────────────────────
+const members = {
+  zizi: {
+    name:'Zizi', ddlc:'Sayori', color:'var(--zizi)', colorD:'var(--zizi-d)',
+    role:'the chronically online introvert with a warm heart',
+    bio:`Shy in person, surprisingly funny once you know him. Chronically online. Wants to get along with everyone and mostly succeeds. Makes any room warmer just by being in it — even when he doesn't quite realize it yet.`,
+    entries:[]
+  },
+  feebs: {
+    name:'Feebs', ddlc:'Natsuki', color:'var(--feebs)', colorD:'var(--feebs-d)',
+    role:'baker of things, giver of chaos, lover of everyone',
+    bio:`Perpetually acting like she's had one too many — and absolutely thriving. Bakes for the group constantly. Clingy in the best way. Sweet and funny and occasionally a little mean, but always, always cares. Her mood swings keep life interesting.`,
+    entries:[]
+  },
+  safi: {
+    name:'Safi', ddlc:'Yuri', color:'var(--safi)', colorD:'var(--safi-d)',
+    role:'quiet in real life, unhinged in the groupchat',
+    bio:`The calmest one in the room and the most energetic one in the chat — and somehow both are completely genuine. Funny, caring, and the kind of person whose presence makes everything feel steadier. Speaks softly but types loudly.`,
+    entries:[]
+  },
+  gillie: {
+    name:'Gillie', ddlc:'Monika', color:'var(--gillie)', colorD:'var(--gillie)',
+    role:'mama, architect of this whole thing',
+    bio:`The one who built this library. Less chaotic than Feebs — except when she isn't. Holds everyone together while also being held. A leader who leads by showing up. They call her mama. She pretends to mind.`,
+    entries:[]
+  }
+};
+
+// ── NAVIGATION ────────────────────────────────────────────
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior:'smooth' });
+  triggerReveal();
+  if (pageId === 'mailroom') loadLetters();
+  if (pageId === 'music') initMusic();
+}
+
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    showPage(link.dataset.page);
+  });
+});
+
+// ── ARCHIVE ───────────────────────────────────────────────
+function backToArchive() {
+  document.getElementById('archive-index').style.display = 'block';
+  document.getElementById('member-page').style.display = 'none';
+  ['duos','trios','quadro'].forEach(s => {
+    document.getElementById('subpage-' + s).style.display = 'none';
+  });
+  window.scrollTo({ top: 0, behavior:'smooth' });
+}
+
+function showSubpage(name) {
+  document.getElementById('archive-index').style.display = 'none';
+  document.getElementById('member-page').style.display = 'none';
+  ['duos','trios','quadro'].forEach(s => {
+    document.getElementById('subpage-' + s).style.display = s === name ? 'block' : 'none';
+  });
+  window.scrollTo({ top: 0, behavior:'smooth' });
+}
+
+async function goToMember(key) {
+  showPage('archive');
+  const m = members[key];
+  document.getElementById('archive-index').style.display = 'none';
+  ['duos','trios','quadro'].forEach(s => {
+    document.getElementById('subpage-' + s).style.display = 'none';
+  });
+
+  const saved = await sbGet('entries', 'member=eq.' + encodeURIComponent(key));
+  const allEntries = [...m.entries, ...saved];
+
+  const entriesHtml = allEntries.length
+    ? allEntries.map(e => `
+        <div class="entry-card">
+          <div class="entry-card-top">
+            <div>
+              <p class="entry-type">${e.type}</p>
+              ${e.title ? `<p class="entry-title">${e.title}</p>` : ''}
+            </div>
+            ${e.id ? `<button class="entry-delete" onclick="deleteEntry('${e.id}')" title="remove">✕</button>` : ''}
+          </div>
+          <p class="entry-body">${e.body ? e.body.replace(/</g,'&lt;') : ''}</p>
+        </div>`).join('')
+    : `<div class="entry-empty">this shelf is still being filled ✦</div>`;
+
+  document.getElementById('member-page-content').innerHTML = `
+    <div class="member-page-header">
+      <div class="member-color-bar" style="background:${m.color}"></div>
+      <div>
+        <p class="member-page-ddlc" style="color:${m.colorD}">${m.ddlc}</p>
+        <h2 class="member-page-name">${m.name}</h2>
+        <p class="member-page-role">${m.role}</p>
+      </div>
+    </div>
+    <div class="member-page-bio">${m.bio}</div>
+    <p class="section-label">their work</p>
+    <h3 class="section-title" style="font-size:1.4rem;margin-bottom:8px">${m.name}'s Shelf</h3>
+    <div class="section-rule" style="margin-bottom:32px">✦</div>
+    <div class="entries-grid">${entriesHtml}</div>
+    <div class="add-entry-box">
+      <h3 class="compose-title">Add to this shelf</h3>
+      <p class="compose-sub">a poem, a journal entry, an art piece — anything worth keeping</p>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Type</label>
+          <select id="entry-type-${key}">
+            <option value="poem">Poem</option>
+            <option value="journal entry">Journal entry</option>
+            <option value="art description">Art description</option>
+            <option value="note">Note</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Title (optional)</label>
+          <input type="text" id="entry-title-${key}" placeholder="give it a name...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field full">
+          <label>Content</label>
+          <textarea id="entry-body-${key}" placeholder="write here..."></textarea>
+        </div>
+      </div>
+      <button class="form-submit" onclick="submitEntry('${key}')">Add to shelf ✦</button>
+    </div>
+  `;
+  document.getElementById('member-page').style.display = 'block';
+  window.scrollTo({ top: 0, behavior:'smooth' });
+}
+
+async function submitEntry(key) {
+  const type  = document.getElementById('entry-type-' + key).value;
+  const title = document.getElementById('entry-title-' + key).value.trim();
+  const body  = document.getElementById('entry-body-' + key).value.trim();
+  if (!body) { alert('Please write something first!'); return; }
+  await sbPost('entries', { member: key, type, title, body });
+  goToMember(key);
+}
+
+async function deleteEntry(id) {
+  if (!confirm('Remove this entry?')) return;
+  await sbDelete('entries', id);
+  const key = document.querySelector('.member-page-name')?.textContent?.toLowerCase();
+  if (key) goToMember(key);
+}
+
+// ── MAILROOM ──────────────────────────────────────────────
+let allLetters = [];
+
+async function loadLetters() {
+  allLetters = await sbGet('letters');
+  updateCounts();
+  renderLetters('all');
+}
+
+function updateCounts() {
+  ['zizi','feebs','safi','gillie'].forEach(name => {
+    const cap = name.charAt(0).toUpperCase() + name.slice(1);
+    const count = allLetters.filter(l => l.to_member === cap || l.to_member === 'Everyone ✦').length;
+    const el = document.getElementById('count-' + name);
+    if (el) el.textContent = count > 0 ? count + ' letter' + (count > 1 ? 's' : '') : 'inbox';
+  });
+}
+
+async function submitLetter() {
+  const from    = document.getElementById('mail-from').value;
+  const to      = document.getElementById('mail-to').value;
+  const subject = document.getElementById('mail-subject').value;
+  const body    = document.getElementById('mail-body').value;
+  if (!from || !to || !body.trim()) { alert('Please fill in from, to, and your letter!'); return; }
+  await sbPost('letters', { from_member: from, to_member: to, subject, body });
+  await loadLetters();
+  document.getElementById('mail-from').value = '';
+  document.getElementById('mail-to').value = '';
+  document.getElementById('mail-subject').value = '';
+  document.getElementById('mail-body').value = '';
+  document.getElementById('letters-container').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function filterLetters(filter) {
+  setActiveTab(filter);
+  renderLetters(filter);
+  document.getElementById('letters-container').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function setActiveTab(filter) {
+  document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.mail-tab').forEach(t => {
+    const txt = t.textContent.trim().toLowerCase();
+    const match = filter === 'all' ? txt === 'all letters'
+      : txt === filter.toLowerCase() || txt === filter.toLowerCase().replace(' ✦','');
+    if (match) t.classList.add('active');
+  });
+}
+
+function renderLetters(filter) {
+  const container = document.getElementById('letters-container');
+  if (!container) return;
+  const filtered = filter === 'all' ? allLetters
+    : allLetters.filter(l => l.to_member === filter || (filter !== 'Everyone ✦' && l.to_member === 'Everyone ✦'));
+  if (!filtered.length) {
+    container.innerHTML = `<div class="no-letters">no letters yet for ${filter === 'all' ? 'anyone' : filter} ✦</div>`;
+    return;
+  }
+  container.innerHTML = filtered.map(l => `
+    <div class="letter-card">
+      <div class="letter-meta">
+        <span class="letter-from">from ${l.from_member}</span>
+        <span class="letter-to">to ${l.to_member}</span>
+      </div>
+      ${l.subject ? `<p class="letter-subject">${l.subject}</p>` : ''}
+      <p class="letter-body">${(l.body||'').replace(/</g,'&lt;')}</p>
+    </div>
+  `).join('');
+}
+
+// ── MUSIC ROOM ────────────────────────────────────────────
+const musicData = {};
+
+function spotifyEmbedUrl(url) {
+  if (!url) return null;
+  const match = url.match(/spotify\.com\/(playlist|album|track)\/([a-zA-Z0-9]+)/);
+  if (!match) return null;
+  return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
+}
+
+function renderSpotify(key, url) {
+  const el = document.getElementById(key + '-spotify-embed') || document.getElementById(key.replace('-','') + '-spotify-embed');
+  if (!el) return;
+  const embedUrl = spotifyEmbedUrl(url);
+  if (embedUrl) {
+    el.innerHTML = `<iframe class="spotify-embed" src="${embedUrl}" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function savePlaylist(key) {
+  const input = document.getElementById(key + '-playlist-input') || document.getElementById(key.replace('-','') + '-playlist-input');
+  if (!input) return;
+  const url = input.value.trim();
+  if (!url) return;
+  musicData[key] = musicData[key] || {};
+  musicData[key].playlist = url;
+  localStorage.setItem('ddl-music-' + key, JSON.stringify(musicData[key]));
+  renderSpotify(key, url);
+}
+
+function loadMusicData(key) {
+  try {
+    const saved = localStorage.getItem('ddl-music-' + key);
+    return saved ? JSON.parse(saved) : {};
+  } catch(e) { return {}; }
+}
+
+function renderSongs(key) {
+  const el = document.getElementById(key + '-songs');
+  if (!el) return;
+  const songs = musicData[key]?.songs || [];
+  if (!songs.length) {
+    el.innerHTML = '<li class="playlist-empty">no songs added yet ✦</li>';
+    return;
+  }
+  el.innerHTML = songs.map((s, i) => `
+    <li class="song-item">
+      <span class="song-title">${s.title}</span>
+      <span class="song-artist">${s.artist}</span>
+      <button class="song-delete" onclick="deleteSong('${key}', ${i})">✕</button>
+    </li>
+  `).join('');
+}
+
+function addSong(key) {
+  const titleEl  = document.getElementById(key + '-song-title');
+  const artistEl = document.getElementById(key + '-song-artist');
+  if (!titleEl || !artistEl) return;
+  const title  = titleEl.value.trim();
+  const artist = artistEl.value.trim();
+  if (!title) return;
+  musicData[key] = musicData[key] || {};
+  musicData[key].songs = musicData[key].songs || [];
+  musicData[key].songs.push({ title, artist });
+  localStorage.setItem('ddl-music-' + key, JSON.stringify(musicData[key]));
+  titleEl.value = ''; artistEl.value = '';
+  renderSongs(key);
+}
+
+function deleteSong(key, index) {
+  if (!musicData[key]?.songs) return;
+  musicData[key].songs.splice(index, 1);
+  localStorage.setItem('ddl-music-' + key, JSON.stringify(musicData[key]));
+  renderSongs(key);
+}
+
+function initMusic() {
+  const keys = ['zizi', 'feebs', 'safi', 'gillie', 'group'];
+  keys.forEach(key => {
+    musicData[key] = loadMusicData(key);
+    if (musicData[key].playlist) {
+      const input = document.getElementById(key + '-playlist-input');
+      if (input) input.value = musicData[key].playlist;
+      renderSpotify(key, musicData[key].playlist);
+    }
+    if (key !== 'group') renderSongs(key);
+  });
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────────────
+function triggerReveal() {
+  const els = document.querySelectorAll('.reveal:not(.visible)');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 55);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.08 });
+  els.forEach(el => obs.observe(el));
+}
+
+// ── INIT ──────────────────────────────────────────────────
+triggerReveal();
+</script>
+</body>
+</html>
